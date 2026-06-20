@@ -1,0 +1,76 @@
+{
+  "english": {
+    "what_is_dfu": {
+      "keywords": ["what is dfu", "what is diabetic foot ulcer", "dfu meaning", "define dfu", "explain dfu", "foot ulcer"],
+      "response": "A Diabetic Foot Ulcer (DFU) is an open sore or wound that occurs on the foot of a person with diabetes. It typically develops on the bottom of the foot. About 15% of people with diabetes develop foot ulcers. DFU is caused by a combination of factors including neuropathy (nerve damage), poor blood circulation, and high blood sugar levels. Early detection is crucial to prevent complications such as infection and amputation. Please consult a doctor for proper diagnosis and treatment."
+    },
+    "symptoms": {
+      "keywords": ["symptoms", "signs", "how to identify", "identify ulcer", "what are symptoms", "warning signs", "foot symptoms"],
+      "response": "Common symptoms of Diabetic Foot Ulcers include: 1) Redness or swelling around a wound, 2) Drainage or pus from the wound, 3) Foul smell from the affected area, 4) Pain or tenderness (though sometimes there is no pain due to neuropathy), 5) Black tissue (eschar) surrounding the wound, 6) Numbness or tingling in the foot, 7) Skin discoloration, 8) Warmth around the wound area. If you notice any of these symptoms, please consult a doctor immediately."
+    },
+    "causes": {
+      "keywords": ["causes", "why does it happen", "reason", "what causes", "risk factors", "how does it occur"],
+      "response": "Diabetic Foot Ulcers are caused by several factors: 1) Diabetic Neuropathy - nerve damage that reduces sensation in feet, 2) Poor Blood Circulation - reduced blood flow slows healing, 3) High Blood Sugar - elevated glucose levels damage blood vessels, 4) Foot Deformities - abnormal foot shape creates pressure points, 5) Improper Footwear - shoes that cause friction or pressure, 6) Poor Foot Hygiene - lack of regular foot care, 7) Smoking - reduces blood circulation further. Managing diabetes and regular foot care can help prevent DFU. Please consult your doctor for personalized advice."
+    },
+    "prevention": {
+      "keywords": ["prevention", "prevent", "how to prevent", "avoid", "precautions", "protect", "care tips"],
+      "response": "To prevent Diabetic Foot Ulcers: 1) Control your blood sugar levels regularly, 2) Inspect your feet daily for cuts, blisters, or redness, 3) Wash feet daily with warm water and mild soap, 4) Dry feet thoroughly especially between toes, 5) Moisturize feet but not between toes, 6) Wear comfortable well-fitting shoes, 7) Never walk barefoot, 8) Trim toenails carefully and straight across, 9) Exercise regularly to improve circulation, 10) Visit your doctor for regular foot examinations, 11) Quit smoking, 12) Manage blood pressure and cholesterol. Always consult your healthcare provider for personalized prevention strategies."
+    },
+    "treatment": {
+      "keywords": ["treatment", "cure", "how to treat", "medicine", "heal", "healing", "therapy", "management"],
+      "response": "Treatment for Diabetic Foot Ulcers includes: 1) Wound Care - regular cleaning and dressing of the ulcer, 2) Offloading - using special footwear or casts to reduce pressure, 3) Infection Control - antibiotics if infection is present, 4) Blood Sugar Management - keeping glucose levels stable, 5) Debridement - removal of dead tissue, 6) Advanced Therapies - growth factors, skin substitutes, or hyperbaric oxygen therapy, 7) Vascular Surgery - in severe cases to improve blood flow. IMPORTANT: This information is for awareness only. Please consult a qualified doctor for proper diagnosis and treatment plan."
+    },
+    "diet": {
+      "keywords": ["diet", "food", "nutrition", "what to eat", "eating", "meal", "diabetic diet", "healthy food"],
+      "response": "Recommended diet for diabetic foot health: FOODS TO EAT: 1) Green leafy vegetables - spinach, kale, 2) Fresh fruits - apples, oranges, berries (in moderation), 3) Whole grains - brown rice, oats, 4) Lean proteins - fish, chicken, eggs, 5) Nuts and seeds - almonds, walnuts, 6) Legumes - lentils, beans, 7) Low-fat dairy products. FOODS TO AVOID: 1) Sugary drinks and sodas, 2) White bread and refined flour, 3) Fried and processed foods, 4) Sweets and desserts, 5) High-sodium foods, 6) Red meat in excess. Always consult a dietitian or doctor for a personalized diet plan."
+    },
+    "foot_care": {
+      "keywords": ["foot care", "care routine", "daily care", "hygiene", "how to take care", "foot hygiene", "feet care"],
+      "response": "Daily Foot Care Routine: 1) Wash your feet every day with lukewarm water, 2) Dry feet thoroughly, especially between toes, 3) Apply moisturizer to prevent dry skin (not between toes), 4) Check your feet daily for cuts, blisters, redness, or swelling, 5) Wear clean, dry socks daily, 6) Choose comfortable, well-fitting shoes, 7) Never walk barefoot, even at home, 8) Trim toenails straight across, 9) Avoid using hot water bottles or heating pads on feet, 10) Exercise regularly for better circulation, 11) Elevate feet when sitting, 12) See your doctor at least once a year for foot examination. Please consult your doctor for specific foot care guidance."
+    },
+    "when_to_consult": {
+      "keywords": ["when to see doctor", "consult doctor", "emergency", "urgent", "hospital", "serious", "when to go"],
+      "response": "You should consult a doctor IMMEDIATELY if you notice: 1) Any open wound or sore on your foot, 2) Redness, swelling, or warmth that is increasing, 3) Pus or drainage from a wound, 4) Foul odor from foot, 5) Black or discolored skin, 6) Fever along with a foot wound, 7) Sudden severe pain in foot, 8) Numbness that is getting worse, 9) A wound that has not healed for more than 2 weeks. Early medical intervention is critical to prevent serious complications. Do not self-medicate. Always seek professional medical advice."
+    },
+    "greeting": {
+      "keywords": ["hello", "hi", "hey", "good morning", "good evening", "good afternoon", "greetings"],
+      "response": "Hello! I am Kurai AI, your Diabetic Foot Ulcer awareness assistant. I can help you with information about DFU symptoms, causes, prevention, treatment, diet recommendations, and foot care tips. How can I help you today? Remember, I am only an informational tool and not a substitute for professional medical advice."
+    },
+    "default": {
+      "response": "I can help you with information about Diabetic Foot Ulcers including symptoms, causes, prevention, treatment, diet recommendations, and foot care tips. Could you please ask me about any of these topics? Remember, for medical concerns please always consult a qualified healthcare professional."
+    }
+  },
+  "tamil": {
+    "what_is_dfu": {
+      "keywords": ["dfu என்றால் என்ன", "நீரிழிவு கால் புண்", "கால் புண்", "புண் என்றால்", "dfu meaning"],
+      "response": "நீரிழிவு கால் புண் (DFU) என்பது நீரிழிவு நோயாளியின் காலில் ஏற்படும் திறந்த புண் ஆகும். இது பொதுவாக கால் அடிப்பகுதியில் உருவாகிறது. நீரிழிவு நோயாளிகளில் சுமார் 15% பேருக்கு கால் புண்கள் ஏற்படுகின்றன. நரம்பு சேதம், குறைந்த ரத்த ஓட்டம், அதிக ரத்த சர்க்கரை அளவு ஆகியவை இதற்கான காரணங்கள். சரியான நேரத்தில் கண்டறிவது முக்கியம். தயவுசெய்து மருத்துவரை அணுகவும்."
+    },
+    "symptoms": {
+      "keywords": ["அறிகுறிகள்", "அடையாளங்கள்", "எப்படி கண்டுபிடிப்பது", "symptoms"],
+      "response": "நீரிழிவு கால் புண்ணின் அறிகுறிகள்: 1) புண்ணைச் சுற்றி சிவப்பு அல்லது வீக்கம், 2) புண்ணிலிருந்து சீழ் வடிதல், 3) கெட்ட நாற்றம், 4) வலி அல்லது மென்மை, 5) கருப்பு திசு, 6) கால்களில் உணர்ச்சியின்மை, 7) தோல் நிறமாற்றம், 8) புண்ணைச் சுற்றி வெப்பம். இந்த அறிகுறிகளை கவனித்தால் உடனடியாக மருத்துவரை அணுகவும்."
+    },
+    "causes": {
+      "keywords": ["காரணங்கள்", "ஏன் வருகிறது", "எதனால்", "causes"],
+      "response": "நீரிழிவு கால் புண் காரணங்கள்: 1) நரம்பு சேதம் - கால்களில் உணர்வு குறைவு, 2) குறைந்த ரத்த ஓட்டம், 3) அதிக ரத்த சர்க்கரை, 4) கால் வடிவ மாற்றங்கள், 5) சரியான காலணி அணியாமை, 6) கால் சுகாதாரமின்மை, 7) புகைப்பிடித்தல். நீரிழிவு நோயை கட்டுப்படுத்துவது முக்கியம். மருத்துவரை அணுகவும்."
+    },
+    "prevention": {
+      "keywords": ["தடுப்பு", "எப்படி தடுப்பது", "முன்னெச்சரிக்கை", "prevention"],
+      "response": "நீரிழிவு கால் புண் தடுப்பு முறைகள்: 1) ரத்த சர்க்கரையை கட்டுப்படுத்துங்கள், 2) தினமும் கால்களை பரிசோதியுங்கள், 3) கால்களை சுத்தமாக கழுவுங்கள், 4) கால்களை நன்கு உலர வையுங்கள், 5) ஈரப்பதமூட்டி பயன்படுத்துங்கள், 6) வசதியான காலணிகள் அணியுங்கள், 7) வெறுங்காலில் நடக்காதீர்கள், 8) நகங்களை கவனமாக வெட்டுங்கள், 9) தொடர்ந்து உடற்பயிற்சி செய்யுங்கள், 10) மருத்துவரிடம் தொடர்ந்து பரிசோதனை செய்யுங்கள்."
+    },
+    "treatment": {
+      "keywords": ["சிகிச்சை", "மருந்து", "எப்படி குணப்படுத்துவது", "treatment"],
+      "response": "நீரிழிவு கால் புண் சிகிச்சை: 1) புண் பராமரிப்பு - தொடர்ந்து சுத்தம் செய்தல், 2) அழுத்தம் குறைத்தல் - சிறப்பு காலணிகள், 3) நோய்த்தொற்று கட்டுப்பாடு - நுண்ணுயிர் எதிர்ப்பிகள், 4) ரத்த சர்க்கரை கட்டுப்பாடு, 5) இறந்த திசு நீக்கம், 6) மேம்பட்ட சிகிச்சைகள். முக்கியம்: இது விழிப்புணர்வுக்கு மட்டுமே. சரியான சிகிச்சைக்கு மருத்துவரை அணுகவும்."
+    },
+    "diet": {
+      "keywords": ["உணவு", "என்ன சாப்பிடுவது", "ஊட்டச்சத்து", "diet"],
+      "response": "நீரிழிவு கால் ஆரோக்கியத்திற்கான உணவு: சாப்பிட வேண்டியவை: 1) கீரை வகைகள், 2) பழங்கள் - ஆப்பிள், ஆரஞ்சு, 3) முழு தானியங்கள், 4) மீன், முட்டை, 5) பருப்பு வகைகள், 6) கொட்டைகள். தவிர்க்க வேண்டியவை: 1) இனிப்பு பானங்கள், 2) வெள்ளை ரொட்டி, 3) பொரித்த உணவுகள், 4) இனிப்புகள், 5) அதிக உப்பு உணவுகள். உணவு நிபுணரை அணுகவும்."
+    },
+    "greeting": {
+      "keywords": ["வணக்கம்", "ஹலோ", "hello", "hi"],
+      "response": "வணக்கம்! நான் குரை AI, உங்கள் நீரிழிவு கால் புண் விழிப்புணர்வு உதவியாளர். நீரிழிவு கால் புண் அறிகுறிகள், காரணங்கள், தடுப்பு, சிகிச்சை, உணவு பரிந்துரைகள் மற்றும் கால் பராமரிப்பு குறிப்புகள் பற்றி நான் உங்களுக்கு உதவ முடியும். நான் மருத்துவ ஆலோசனைக்கு மாற்றாக இல்லை என்பதை நினைவில் கொள்ளுங்கள்."
+    },
+    "default": {
+      "response": "நீரிழிவு கால் புண்கள் பற்றிய தகவல்களில் நான் உங்களுக்கு உதவ முடியும் - அறிகுறிகள், காரணங்கள், தடுப்பு, சிகிச்சை, உணவு பரிந்துரைகள், கால் பராமரிப்பு குறிப்புகள். இவற்றில் ஏதாவது பற்றி கேளுங்கள். மருத்துவ கவலைகளுக்கு எப்போதும் மருத்துவரை அணுகவும்."
+    }
+  }
+}

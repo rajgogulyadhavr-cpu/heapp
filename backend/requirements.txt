@@ -1,0 +1,9 @@
+tensorflow
+opencv-python-headless
+flask
+flask-cors
+numpy
+Pillow
+SpeechRecognition
+gTTS
+matplotlib
