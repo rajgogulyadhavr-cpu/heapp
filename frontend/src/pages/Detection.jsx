@@ -145,10 +145,10 @@ export default function Detection() {
     try {
       let res;
       try {
-        res = await axios.post('/api/predict-camera', { image: dataUrl }, { timeout: 15000 })
+        res = await axios.post('/api/predict', { image: dataUrl }, { timeout: 15000 })
       } catch (firstErr) {
         console.warn('First camera prediction attempt failed, retrying...', firstErr)
-        res = await axios.post('/api/predict-camera', { image: dataUrl }, { timeout: 15000 })
+        res = await axios.post('/api/predict', { image: dataUrl }, { timeout: 15000 })
       }
       setResult(res.data)
     } catch (err) {
