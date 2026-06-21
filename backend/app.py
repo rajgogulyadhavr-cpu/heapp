@@ -24,7 +24,11 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=[
+    "https://footguard-app.netlify.app",
+    "http://localhost:5173",
+    "http://localhost:3000",
+], supports_credentials=False)
 
 # ─── Upload Limit (16 MB) ──────────────────────────────────────────
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
