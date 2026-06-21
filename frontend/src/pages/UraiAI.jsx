@@ -28,7 +28,7 @@ export default function UraiAI() {
     setLoading(true)
 
     try {
-      const res = await axios.post('/api/urai/chat', { message: userMsg, language })
+      const res = await axios.post('/api/urai/chat', { message: userMsg, language }, { timeout: 12000 })
       setMessages(prev => [...prev, {
         role: 'ai',
         text: res.data.response,
@@ -101,22 +101,22 @@ export default function UraiAI() {
 
       {/* Chat Area */}
       <div
-        className="flex-1 glass-card p-5 mb-4 overflow-y-auto"
+        className="flex-1 glass-card-xl p-8 mb-6 overflow-y-auto"
         style={{ minHeight: 0 }}
       >
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center">
-            <div className="text-7xl mb-5 animate-float">💬</div>
+            <div className="text-[5rem] mb-6 animate-float">🤖</div>
             <p
-              className="text-xl font-bold mb-2"
-              style={{ color: 'var(--color-accent)', fontFamily: 'Poppins, sans-serif' }}
+              className="text-2xl font-bold mb-3"
+              style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-primary)' }}
             >
               {language === 'english' ? 'Hello! I am Urai AI' : 'வணக்கம்! நான் உரை AI'}
             </p>
-            <p className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
+            <p className="text-[1rem] font-medium" style={{ color: 'var(--color-text-secondary)' }}>
               {language === 'english'
-                ? 'Ask me anything about diabetic foot ulcers'
-                : 'நீரிழிவு கால் புண்கள் பற்றி எதையும் கேளுங்கள்'}
+                ? 'Type your question about diabetic foot ulcers below.'
+                : 'நீரிழிவு கால் புண்கள் பற்றிய உங்கள் கேள்வியை கீழே தட்டச்சு செய்யவும்.'}
             </p>
           </div>
         )}
@@ -137,24 +137,20 @@ export default function UraiAI() {
                 🤖
               </div>
             )}
-            <div className="max-w-[82%]">
-              <div
-                className="p-5 text-base leading-relaxed"
-                style={{
-                  background: msg.role === 'user'
-                    ? 'linear-gradient(135deg, rgba(57,255,20,0.18), rgba(57,255,20,0.08))'
-                    : 'rgba(255,255,255,0.08)',
-                  border: msg.role === 'user'
-                    ? '1px solid rgba(57,255,20,0.3)'
-                    : '1px solid rgba(255,255,255,0.12)',
-                  borderRadius: msg.role === 'user' ? '24px 24px 6px 24px' : '24px 24px 24px 6px',
-                  color: 'var(--color-text)',
-                  fontFamily: 'Poppins, sans-serif',
-                  fontWeight: 400,
-                  backdropFilter: 'blur(16px)',
-                  boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-                }}
-              >
+            <div className="max-w-[78%] p-6 text-[0.95rem] leading-relaxed" style={{
+                background: msg.role === 'user'
+                  ? 'linear-gradient(135deg, rgba(57,255,20,0.18), rgba(57,255,20,0.08))'
+                  : 'rgba(255,255,255,0.08)',
+                border: msg.role === 'user'
+                  ? '1px solid rgba(57,255,20,0.3)'
+                  : '1px solid rgba(255,255,255,0.12)',
+                borderRadius: msg.role === 'user' ? '28px 28px 8px 28px' : '28px 28px 28px 8px',
+                color: 'var(--color-text)',
+                fontFamily: 'var(--font-primary)',
+                fontWeight: 500,
+                backdropFilter: 'blur(16px)',
+                boxShadow: msg.role === 'user' ? '0 8px 24px rgba(57,255,20,0.1)' : '0 8px 24px rgba(0,0,0,0.2)',
+              }}>
                 <p style={{ whiteSpace: 'pre-wrap', lineHeight: '1.7' }}>{msg.text}</p>
                 {msg.role === 'ai' && (
                   <div className="mt-3 flex items-center gap-2">
@@ -172,10 +168,9 @@ export default function UraiAI() {
                     </button>
                   </div>
                 )}
-              </div>
-              {msg.role === 'ai' && (
+                {msg.role === 'ai' && (
                 <p
-                  className="text-[10px] mt-2 px-2"
+                  className="text-[10px] mt-2"
                   style={{ color: '#fca5a5', fontFamily: 'Poppins, sans-serif' }}
                 >
                   ⚠️ {msg.disclaimer || 'Please consult a doctor for proper diagnosis.'}
@@ -222,8 +217,8 @@ export default function UraiAI() {
       </div>
 
       {/* Input Area */}
-      <div className="glass-card p-4">
-        <div className="flex gap-3">
+      <div className="glass-card-xl p-5 mb-4">
+        <div className="flex gap-4 items-center">
           <input
             id="urai-input"
             type="text"

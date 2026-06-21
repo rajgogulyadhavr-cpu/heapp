@@ -56,7 +56,8 @@ function App() {
       <Sidebar />
       <main className="main-content pt-16 lg:pt-0">
         <AnimatePresence mode="wait">
-          <Routes>
+          <div className="page-container mx-auto">
+            <Routes>
             <Route path="/" element={<Detection />} />
             <Route path="/kurai" element={<KuraiAI />} />
             <Route path="/urai" element={<UraiAI />} />
@@ -64,7 +65,8 @@ function App() {
             <Route path="/diet" element={<Diet />} />
             <Route path="/dfu-info" element={<DFUInfo />} />
             <Route path="/about" element={<About />} />
-          </Routes>
+            </Routes>
+          </div>
         </AnimatePresence>
       </main>
     </div>

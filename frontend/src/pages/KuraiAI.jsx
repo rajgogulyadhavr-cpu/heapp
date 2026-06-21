@@ -15,8 +15,10 @@ export default function KuraiAI() {
   const [textInput, setTextInput] = useState('')
   const [recording, setRecording] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [micError, setMicError] = useState(null)
   const mediaRecorderRef = useRef(null)
   const chunksRef = useRef([])
+  const blobRef = useRef(null) // store blob for retry
 
   const handleTextSubmit = async () => {
     if (!textInput.trim() || loading) return
@@ -26,20 +28,85 @@ export default function KuraiAI() {
     setLoading(true)
 
     try {
-      const res = await axios.post('/api/kurai/text', { message: userMsg, language })
+      let res
+      try {
+        res = await axios.post('/api/kurai/text', { message: userMsg, language }, { timeout: 15000 })
+      } catch (firstErr) {
+        console.warn('First text attempt failed, retrying...', firstErr)
+        // Fresh call — no shared state issue with text requests
+        res = await axios.post('/api/kurai/text', { message: userMsg, language }, { timeout: 15000 })
+      }
       setMessages(prev => [...prev, { role: 'ai', text: res.data.response, audio: res.data.audio }])
       if (res.data.audio) {
         const audio = new Audio(`data:audio/mp3;base64,${res.data.audio}`)
-        audio.play().catch(() => {})
+        audio.play().catch(e => console.warn('Audio playback failed:', e))
       }
-    } catch {
-      setMessages(prev => [...prev, { role: 'ai', text: 'Sorry, something went wrong. Please try again.' }])
+    } catch (err) {
+      console.error('Text submission error:', err)
+      setMessages(prev => [
+        ...prev,
+        {
+          role: 'ai',
+          text: language === 'english'
+            ? 'We could not reach the server right now. Please check your network and try again.'
+            : 'சேவையகத்தை அணுக முடியவில்லை. நெட்வொர்க்கை சரிபார்த்து மீண்டும் முயற்சிக்கவும்.',
+        },
+      ])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const sendVoiceBlob = async (blob) => {
+    setMessages(prev => [...prev, { role: 'user', text: '🎤 Voice message sent...' }])
+    setLoading(true)
+
+    const makeRequest = () => {
+      // Create a FRESH FormData each time — blobs must not be reused across requests
+      const formData = new FormData()
+      formData.append('audio', blob, 'recording.webm')
+      formData.append('language', language)
+      return axios.post('/api/kurai/voice', formData, { timeout: 20000 })
+    }
+
+    try {
+      let res
+      try {
+        res = await makeRequest()
+      } catch (firstErr) {
+        console.warn('First voice attempt failed, retrying...', firstErr)
+        // Build a fresh FormData with the same blob for the retry
+        res = await makeRequest()
+      }
+
+      const transcript = res.data.transcript ? `🎤 "${res.data.transcript}"` : '🎤 Voice message'
+      setMessages(prev => {
+        const updated = [...prev]
+        updated[updated.length - 1] = { role: 'user', text: transcript }
+        return [...updated, { role: 'ai', text: res.data.response, audio: res.data.audio }]
+      })
+      if (res.data.audio) {
+        const audio = new Audio(`data:audio/mp3;base64,${res.data.audio}`)
+        audio.play().catch(e => console.warn('Audio playback failed:', e))
+      }
+    } catch (err) {
+      console.error('Voice processing error:', err)
+      setMessages(prev => [
+        ...prev,
+        {
+          role: 'ai',
+          text: language === 'english'
+            ? 'Could not process voice due to a network issue. Please try typing your question instead.'
+            : 'நெட்வொர்க் பிழையால் குரலை செயலாக்க முடியவில்லை. உரையில் கேளுங்கள்.',
+        },
+      ])
     } finally {
       setLoading(false)
     }
   }
 
   const startRecording = async () => {
+    setMicError(null)
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' })
@@ -50,38 +117,22 @@ export default function KuraiAI() {
         if (e.data.size > 0) chunksRef.current.push(e.data)
       }
 
-      mediaRecorder.onstop = async () => {
+      mediaRecorder.onstop = () => {
         stream.getTracks().forEach(t => t.stop())
         const blob = new Blob(chunksRef.current, { type: 'audio/webm' })
-        setMessages(prev => [...prev, { role: 'user', text: '🎤 Voice message sent...' }])
-        setLoading(true)
-
-        try {
-          const formData = new FormData()
-          formData.append('audio', blob, 'recording.webm')
-          formData.append('language', language)
-          const res = await axios.post('/api/kurai/voice', formData)
-          const transcript = res.data.transcript ? `🎤 "${res.data.transcript}"` : '🎤 Voice message'
-          setMessages(prev => {
-            const updated = [...prev]
-            updated[updated.length - 1] = { role: 'user', text: transcript }
-            return [...updated, { role: 'ai', text: res.data.response, audio: res.data.audio }]
-          })
-          if (res.data.audio) {
-            const audio = new Audio(`data:audio/mp3;base64,${res.data.audio}`)
-            audio.play().catch(() => {})
-          }
-        } catch {
-          setMessages(prev => [...prev, { role: 'ai', text: 'Could not process voice. Try text input instead.' }])
-        } finally {
-          setLoading(false)
-        }
+        blobRef.current = blob
+        sendVoiceBlob(blob)
       }
 
       mediaRecorder.start()
       setRecording(true)
-    } catch {
-      alert('Microphone access denied. Please allow microphone permissions.')
+    } catch (err) {
+      console.error('Microphone access error:', err)
+      setMicError(
+        language === 'english'
+          ? 'Microphone access denied. Please allow microphone permissions in your browser settings.'
+          : 'மைக்ரோஃபோன் அனுமதி மறுக்கப்பட்டது. உலாவி அமைப்புகளில் அனுமதி வழங்கவும்.'
+      )
     }
   }
 
@@ -115,21 +166,36 @@ export default function KuraiAI() {
         {language === 'english' ? 'Voice-powered DFU Awareness Assistant' : 'குரல் மூலம் இயங்கும் நீரிழிவு நோய் விழிப்புணர்வு உதவியாளர்'}
       </p>
 
+      {/* Inline mic error banner */}
+      {micError && (
+        <div
+          className="mb-3 px-4 py-3 rounded-2xl text-sm"
+          style={{
+            background: 'rgba(255,68,68,0.08)',
+            border: '1px solid rgba(255,68,68,0.25)',
+            color: '#fca5a5',
+            fontFamily: 'Poppins, sans-serif',
+          }}
+        >
+          🎙️ {micError}
+        </div>
+      )}
+
       {/* Chat Area */}
       <div
-        className="flex-1 glass-card p-5 mb-4 overflow-y-auto"
+        className="flex-1 glass-card-xl p-8 mb-6 overflow-y-auto"
         style={{ minHeight: 0 }}
       >
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center">
-            <div className="text-7xl mb-5 animate-float">🎤</div>
+            <div className="text-[5rem] mb-6 animate-float">🎤</div>
             <p
-              className="text-xl font-bold mb-2"
-              style={{ color: 'var(--color-accent)', fontFamily: 'Poppins, sans-serif' }}
+              className="text-2xl font-bold mb-3"
+              style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-primary)' }}
             >
               {language === 'english' ? 'Hello! I am Kurai AI' : 'வணக்கம்! நான் குரை AI'}
             </p>
-            <p className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
+            <p className="text-[1rem] font-medium" style={{ color: 'var(--color-text-secondary)' }}>
               {language === 'english'
                 ? 'Ask me about diabetic foot ulcers using voice or text'
                 : 'நீரிழிவு கால் புண்கள் பற்றி குரல் அல்லது உரை மூலம் கேளுங்கள்'}
@@ -154,7 +220,7 @@ export default function KuraiAI() {
               </div>
             )}
             <div
-              className="max-w-[78%] p-5 text-base leading-relaxed"
+              className="max-w-[78%] p-6 text-[0.95rem] leading-relaxed"
               style={{
                 background: msg.role === 'user'
                   ? 'linear-gradient(135deg, rgba(57,255,20,0.18), rgba(57,255,20,0.08))'
@@ -162,12 +228,12 @@ export default function KuraiAI() {
                 border: msg.role === 'user'
                   ? '1px solid rgba(57,255,20,0.3)'
                   : '1px solid rgba(255,255,255,0.12)',
-                borderRadius: msg.role === 'user' ? '24px 24px 6px 24px' : '24px 24px 24px 6px',
+                borderRadius: msg.role === 'user' ? '28px 28px 8px 28px' : '28px 28px 28px 8px',
                 color: 'var(--color-text)',
-                fontFamily: 'Poppins, sans-serif',
-                fontWeight: 400,
+                fontFamily: 'var(--font-primary)',
+                fontWeight: 500,
                 backdropFilter: 'blur(16px)',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                boxShadow: msg.role === 'user' ? '0 8px 24px rgba(57,255,20,0.1)' : '0 8px 24px rgba(0,0,0,0.2)',
               }}
             >
               {msg.text}
@@ -224,12 +290,12 @@ export default function KuraiAI() {
       </div>
 
       {/* Input Area */}
-      <div className="glass-card p-4">
-        <div className="flex gap-3 items-center">
+      <div className="glass-card-xl p-5 mb-4">
+        <div className="flex gap-4 items-center">
           <button
             id="voice-btn"
             onClick={recording ? stopRecording : startRecording}
-            className="w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all duration-300 shrink-0 hover:scale-105"
+            className="w-14 h-14 rounded-full flex items-center justify-center text-2xl transition-all duration-300 shrink-0 hover:scale-105"
             style={{
               background: recording
                 ? 'linear-gradient(135deg, #ff4444, #cc2200)'

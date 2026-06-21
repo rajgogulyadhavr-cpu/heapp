@@ -57,64 +57,46 @@ export default function DFUInfo() {
   ]
 
   return (
-    <motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit" className="max-w-5xl mx-auto">
-      <h1 className="page-title">📚 DFU Education</h1>
-      <p className="page-subtitle">Understand symptoms, prevention guidelines, and clinical references for Diabetic Foot Ulcers</p>
+    <motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit" className="max-w-5xl mx-auto flex flex-col gap-8">
+      <div>
+        <h1 className="page-title">📚 DFU Education</h1>
+        <p className="page-subtitle">Essential knowledge for prevention and early detection</p>
+      </div>
 
       {/* Accordion Sections */}
-      <div className="mb-9 flex flex-col gap-4">
-        {infoSections.map((section, idx) => {
-          const isExpanded = expandedIndex === idx
+      <div className="flex flex-col gap-5">
+        {infoSections.map((section, i) => {
+          const isExpanded = expandedIndex === i
           return (
             <div
-              key={idx}
-              className="glass-card overflow-hidden"
-              style={{
-                borderColor: isExpanded ? 'rgba(57,255,20,0.28)' : 'var(--color-glass-border)',
-                background: isExpanded ? 'rgba(57,255,20,0.04)' : 'var(--color-glass)',
-                boxShadow: isExpanded ? '0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(57,255,20,0.06)' : 'var(--shadow-glass)',
-                transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
-              }}
+              key={i}
+              className="glass-card-xl overflow-hidden"
+              style={{ borderLeft: isExpanded ? '4px solid #39ff14' : '4px solid transparent' }}
             >
               <button
-                onClick={() => toggleExpand(idx)}
-                className="w-full flex items-center justify-between p-5 text-left"
-                style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--color-text)' }}
+                onClick={() => toggleExpand(i)}
+                className="w-full text-left p-6 flex justify-between items-center bg-transparent border-none cursor-pointer"
               >
-                <div
-                  className="flex items-center gap-4 font-semibold text-base"
-                  style={{ fontFamily: 'Poppins, sans-serif' }}
-                >
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
-                    style={{
-                      background: isExpanded ? 'rgba(57,255,20,0.12)' : 'rgba(255,255,255,0.05)',
-                      border: isExpanded ? '1px solid rgba(57,255,20,0.25)' : '1px solid rgba(255,255,255,0.08)',
-                      transition: 'all 0.3s ease',
-                    }}
+                <div className="flex items-center gap-4">
+                  <span className="text-2xl">{section.icon}</span>
+                  <span
+                    className="font-bold text-[1.05rem]"
+                    style={{ color: isExpanded ? 'var(--color-accent)' : 'var(--color-text)', fontFamily: 'var(--font-primary)' }}
                   >
-                    {section.icon}
-                  </div>
-                  <span style={{ color: isExpanded ? 'var(--color-accent)' : 'var(--color-text)', fontWeight: isExpanded ? 600 : 500 }}>
                     {section.title}
                   </span>
                 </div>
                 <div
-                  className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ml-4"
+                  className="text-xl transition-transform duration-300"
                   style={{
-                    background: isExpanded ? 'rgba(57,255,20,0.12)' : 'rgba(255,255,255,0.05)',
-                    border: isExpanded ? '1px solid rgba(57,255,20,0.2)' : '1px solid rgba(255,255,255,0.08)',
-                    color: 'var(--color-accent)',
-                    fontSize: '0.75rem',
-                    transition: 'all 0.3s ease',
+                    color: isExpanded ? '#39ff14' : 'var(--color-text-secondary)',
                     transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
                   }}
                 >
                   ▼
                 </div>
               </button>
-
-              <AnimatePresence initial={false}>
+              <AnimatePresence>
                 {isExpanded && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
@@ -122,17 +104,8 @@ export default function DFUInfo() {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                   >
-                    <div
-                      className="px-5 pb-5"
-                      style={{
-                        borderTop: '1px solid rgba(57,255,20,0.12)',
-                        paddingTop: '16px',
-                      }}
-                    >
-                      <p
-                        className="text-sm leading-relaxed"
-                        style={{ color: 'var(--color-text)', fontFamily: 'Poppins, sans-serif', fontWeight: 400 }}
-                      >
+                    <div className="px-6 pb-6 pt-2">
+                      <p className="text-[0.95rem] leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
                         {section.content}
                       </p>
                     </div>
@@ -144,14 +117,49 @@ export default function DFUInfo() {
         })}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-4">
+        {/* Risk Level Card */}
+        <div className="glass-card-xl p-8" style={{ borderTop: '4px solid #ff4444' }}>
+          <h3 className="text-lg font-bold mb-6 flex items-center gap-3" style={{ color: '#ff7777' }}>
+            <span className="w-10 h-10 rounded-2xl flex items-center justify-center text-lg shrink-0" style={{ background: 'rgba(255,68,68,0.12)', border: '1px solid rgba(255,68,68,0.2)' }}>
+              ⚠️
+            </span>
+            Clinical Risk Levels
+          </h3>
+          <ul className="flex flex-col gap-5">
+            <li className="flex gap-4">
+              <span className="shrink-0 mt-0.5 text-lg">🦶</span>
+              <div>
+                <strong style={{ color: 'var(--color-text)' }}>Mild Risk:</strong>
+                <p className="text-sm mt-1 leading-relaxed text-gray-400">Loss of sensation (neuropathy), but no deformity or peripheral arterial disease.</p>
+              </div>
+            </li>
+            <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)' }} />
+            <li className="flex gap-4">
+              <span className="shrink-0 mt-0.5 text-lg">⚠️</span>
+              <div>
+                <strong style={{ color: 'var(--color-text)' }}>Moderate Risk:</strong>
+                <p className="text-sm mt-1 leading-relaxed text-gray-400">Neuropathy combined with foot deformity or peripheral arterial disease.</p>
+              </div>
+            </li>
+            <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)' }} />
+            <li className="flex gap-4">
+              <span className="shrink-0 mt-0.5 text-lg">🚨</span>
+              <div>
+                <strong style={{ color: 'var(--color-text)' }}>High Risk:</strong>
+                <p className="text-sm mt-1 leading-relaxed text-gray-400">Previous history of a foot ulcer or amputation.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
         {/* Medical References Card */}
-        <div className="glass-card p-6">
-          <h3
-            className="text-base font-bold mb-5 flex items-center gap-2"
-            style={{ color: 'var(--color-accent)', fontFamily: 'Poppins, sans-serif' }}
-          >
-            🌐 Clinical Reference Links
+        <div className="glass-card-xl p-8" style={{ borderTop: '4px solid #39ff14' }}>
+          <h3 className="text-lg font-bold mb-6 flex items-center gap-3" style={{ color: 'var(--color-accent)' }}>
+            <span className="w-10 h-10 rounded-2xl flex items-center justify-center text-lg shrink-0" style={{ background: 'rgba(57,255,20,0.12)', border: '1px solid rgba(57,255,20,0.2)' }}>
+              🩺
+            </span>
+            Clinical Reference Links
           </h3>
           <ul className="flex flex-col gap-3">
             {references.map((ref, idx) => (
@@ -178,63 +186,59 @@ export default function DFUInfo() {
                   }}
                 >
                   <span style={{ color: 'var(--color-accent)' }}>🔗</span>
-                  <span style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 500 }}>{ref.name}</span>
+                  <span style={{ fontFamily: 'var(--font-primary)', fontWeight: 600 }}>{ref.name}</span>
                 </a>
               </li>
             ))}
           </ul>
         </div>
+      </div>
 
-        {/* Dataset Information Card */}
-        <div className="glass-card p-6">
-          <h3
-            className="text-base font-bold mb-5 flex items-center gap-2"
-            style={{ color: 'var(--color-accent)', fontFamily: 'Poppins, sans-serif' }}
-          >
-            📊 DFU Patch Datasets
-          </h3>
-          <ul className="flex flex-col gap-3">
-            {datasets.map((ds, idx) => (
-              <li key={idx}>
-                <a
-                  href={ds.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition-all duration-300"
-                  style={{
-                    color: 'var(--color-text)',
-                    background: 'rgba(255,255,255,0.03)',
-                    border: '1px solid rgba(255,255,255,0.06)',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(57,255,20,0.06)'
-                    e.currentTarget.style.borderColor = 'rgba(57,255,20,0.2)'
-                    e.currentTarget.style.color = '#39ff14'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.03)'
-                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'
-                    e.currentTarget.style.color = 'var(--color-text)'
-                  }}
-                >
-                  <span style={{ color: 'var(--color-accent)' }}>📁</span>
-                  <span style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 500 }}>{ds.name}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
+      <div className="glass-card-xl p-8 mb-6">
+        <h3 className="text-lg font-bold mb-6 flex items-center gap-2" style={{ color: 'var(--color-accent)' }}>
+          📊 DFU Patch Datasets
+        </h3>
+        <ul className="flex flex-col gap-3">
+          {datasets.map((ds, idx) => (
+            <li key={idx}>
+              <a
+                href={ds.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs transition-all duration-300"
+                style={{
+                  color: 'var(--color-text)',
+                  background: 'rgba(255,255,255,0.03)',
+                  border: '1px solid rgba(255,255,255,0.06)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(57,255,20,0.06)'
+                  e.currentTarget.style.borderColor = 'rgba(57,255,20,0.2)'
+                  e.currentTarget.style.color = '#39ff14'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.03)'
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'
+                  e.currentTarget.style.color = 'var(--color-text)'
+                }}
+              >
+                <span style={{ color: 'var(--color-accent)' }}>📁</span>
+                <span style={{ fontFamily: 'var(--font-primary)', fontWeight: 600 }}>{ds.name}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
 
-          <div
-            className="mt-5 p-4 rounded-xl text-xs"
-            style={{
-              background: 'rgba(57,255,20,0.05)',
-              border: '1px solid rgba(57,255,20,0.12)',
-              color: 'var(--color-text-secondary)',
-              lineHeight: '1.7',
-            }}
-          >
-            💡 The Foot Guard AI model was trained on publicly available DFU patch datasets to provide early-screening capability for clinical support.
-          </div>
+        <div
+          className="mt-5 p-4 rounded-xl text-[0.85rem]"
+          style={{
+            background: 'rgba(57,255,20,0.05)',
+            border: '1px solid rgba(57,255,20,0.12)',
+            color: 'var(--color-text-secondary)',
+            lineHeight: '1.7',
+          }}
+        >
+          💡 The Foot Guard AI model was trained on publicly available DFU patch datasets to provide early-screening capability for clinical support.
         </div>
       </div>
 

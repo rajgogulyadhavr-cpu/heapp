@@ -27,12 +27,17 @@ export default function Detection() {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
-    if (file) {
-      setImage(file)
-      setPreview(URL.createObjectURL(file))
-      setResult(null)
-      setError(null)
+    if (!file) return
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/bmp']
+    if (!validTypes.includes(file.type) && !file.type.startsWith('image/')) {
+      setError('Invalid file type. Please upload a JPG, PNG, or WebP image.')
+      e.target.value = ''
+      return
     }
+    setImage(file)
+    setPreview(URL.createObjectURL(file))
+    setResult(null)
+    setError(null)
   }
 
   const handleDrop = useCallback((e) => {
@@ -54,15 +59,29 @@ export default function Detection() {
     if (!image) return
     setLoading(true)
     setError(null)
+    const prevResult = result
     try {
       const formData = new FormData()
       formData.append('image', image)
-      const res = await axios.post('/api/predict', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      })
+      
+      let res;
+      try {
+        res = await axios.post('/api/predict', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+          timeout: 15000
+        })
+      } catch (firstErr) {
+        console.warn('First prediction attempt failed, retrying...', firstErr)
+        res = await axios.post('/api/predict', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+          timeout: 15000
+        })
+      }
       setResult(res.data)
     } catch (err) {
-      setError(err.response?.data?.error || 'Prediction failed. Make sure the backend is running and model is trained.')
+      console.error('Prediction failed after retries:', err)
+      setError('We could not complete the prediction. Please check your network and try again.')
+      if (prevResult) setResult(prevResult)
     } finally {
       setLoading(false)
     }
@@ -104,42 +123,52 @@ export default function Detection() {
 
     setLoading(true)
     setError(null)
+    const prevResult = result
     try {
-      const res = await axios.post('/api/predict-camera', { image: dataUrl })
+      let res;
+      try {
+        res = await axios.post('/api/predict-camera', { image: dataUrl }, { timeout: 15000 })
+      } catch (firstErr) {
+        console.warn('First camera prediction attempt failed, retrying...', firstErr)
+        res = await axios.post('/api/predict-camera', { image: dataUrl }, { timeout: 15000 })
+      }
       setResult(res.data)
     } catch (err) {
-      setError(err.response?.data?.error || 'Prediction failed.')
+      console.error('Camera prediction failed after retries:', err)
+      setError('We could not complete the analysis. Please check your network and try again.')
+      if (prevResult) setResult(prevResult)
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit">
-      <h1 className="page-title">🔬 Detection</h1>
-      <p className="page-subtitle">Upload an image or use your camera to detect diabetic foot ulcers</p>
-
-      {/* Mode Toggle */}
-      <div className="flex gap-3 mb-7">
-        <button
-          id="mode-upload"
-          onClick={() => { setMode('upload'); stopCamera() }}
-          className={mode === 'upload' ? 'btn-primary' : 'btn-glass'}
-        >
-          📁 Upload Image
-        </button>
-        <button
-          id="mode-camera"
-          onClick={() => { setMode('camera'); startCamera() }}
-          className={mode === 'camera' ? 'btn-primary' : 'btn-glass'}
-        >
-          📸 Camera
-        </button>
+    <motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit" className="flex flex-col gap-8">
+      <div>
+        <h1 className="page-title">🩺 Ulcer Detection</h1>
+        <p className="page-subtitle">Upload a foot image for instant AI-powered DFU screening</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Input Section */}
-        <div className="glass-card p-7">
+        <div className="glass-card-xl p-8 flex flex-col justify-center">
+          {/* Mode Toggle */}
+          <div className="flex gap-3 mb-7">
+            <button
+              id="mode-upload"
+              onClick={() => { setMode('upload'); stopCamera() }}
+              className={mode === 'upload' ? 'btn-primary' : 'btn-glass'}
+            >
+              📁 Upload Image
+            </button>
+            <button
+              id="mode-camera"
+              onClick={() => { setMode('camera'); startCamera() }}
+              className={mode === 'camera' ? 'btn-primary' : 'btn-glass'}
+            >
+              📸 Camera
+            </button>
+          </div>
           <h3
             className="text-base font-semibold mb-5 flex items-center gap-2"
             style={{ color: 'var(--color-accent)', fontFamily: 'Poppins, sans-serif' }}

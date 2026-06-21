@@ -127,22 +127,22 @@ export default function Hospitals() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-1">
         {/* Hospital List Panel */}
         <div
-          className="glass-card overflow-y-auto flex flex-col gap-3 lg:col-span-1"
-          style={{ maxHeight: '560px', padding: '20px' }}
+          className="glass-card-xl overflow-y-auto flex flex-col gap-4 lg:col-span-1"
+          style={{ maxHeight: '600px', padding: '24px' }}
         >
           <div className="flex items-center justify-between mb-2">
             <h3
-              className="text-sm font-semibold"
-              style={{ color: 'var(--color-accent)', fontFamily: 'Poppins, sans-serif' }}
+              className="text-[1.05rem] font-bold"
+              style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-primary)' }}
             >
               🏥 Speciality Clinics
             </h3>
             <span
-              className="text-xs px-3 py-1 rounded-full font-semibold"
-              style={{ background: 'rgba(57,255,20,0.1)', color: 'var(--color-accent)', border: '1px solid rgba(57,255,20,0.2)' }}
+              className="text-xs px-3 py-1.5 rounded-full font-bold"
+              style={{ background: 'rgba(57,255,20,0.1)', color: 'var(--color-accent)', border: '1px solid rgba(57,255,20,0.3)' }}
             >
               {filteredHospitals.length} found
             </span>
@@ -167,51 +167,54 @@ export default function Hospitals() {
                   boxShadow: selected === hosp.id ? '0 0 20px rgba(57,255,20,0.08)' : 'none',
                 }}
               >
-                <div className="flex justify-between items-center mb-2 gap-2">
+                <div className="flex justify-between items-start mb-3 gap-3">
                   <h4
-                    className="text-sm font-bold leading-snug"
-                    style={{ fontFamily: 'Poppins, sans-serif', color: 'var(--color-text)' }}
+                    className="text-[0.95rem] font-bold leading-snug"
+                    style={{ fontFamily: 'var(--font-primary)', color: 'var(--color-text)' }}
                   >
                     {hosp.name}
                   </h4>
                   <span
-                    className="text-[10px] px-2 py-1 rounded-lg font-semibold shrink-0"
+                    className="text-[10px] px-2.5 py-1.5 rounded-lg font-bold shrink-0 mt-1"
                     style={{
                       background: hosp.type === 'Government' ? 'rgba(57,255,20,0.1)' : 'rgba(255,68,68,0.1)',
                       color: hosp.type === 'Government' ? 'var(--color-accent)' : '#ff7777',
-                      border: hosp.type === 'Government' ? '1px solid rgba(57,255,20,0.25)' : '1px solid rgba(255,68,68,0.25)',
+                      border: hosp.type === 'Government' ? '1px solid rgba(57,255,20,0.3)' : '1px solid rgba(255,68,68,0.3)',
+                      boxShadow: hosp.type === 'Government' ? '0 0 10px rgba(57,255,20,0.1)' : '0 0 10px rgba(255,68,68,0.1)'
                     }}
                   >
                     {hosp.type}
                   </span>
                 </div>
                 <p
-                  className="text-xs font-medium mb-1.5"
+                  className="text-[0.85rem] font-semibold mb-2"
                   style={{ color: 'var(--color-accent)' }}
                 >
                   ✦ {hosp.specialization}
                 </p>
-                <p className="text-[11px] mb-1.5 leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
-                  📍 {hosp.address}
-                </p>
-                <p className="text-[11px] font-medium" style={{ color: 'var(--color-text)' }}>
-                  📞 {hosp.contact}
-                </p>
+                <div className="space-y-1.5">
+                  <p className="text-[0.8rem] leading-relaxed flex gap-2" style={{ color: 'var(--color-text-secondary)' }}>
+                    <span className="shrink-0 mt-0.5">📍</span>
+                    <span>{hosp.address}</span>
+                  </p>
+                  <p className="text-[0.8rem] font-medium flex gap-2" style={{ color: 'var(--color-text)' }}>
+                    <span className="shrink-0">📞</span>
+                    <span>{hosp.contact}</span>
+                  </p>
+                </div>
               </div>
             ))
           )}
         </div>
 
-        {/* Map Panel */}
         <div
-          className="lg:col-span-2 relative rounded-3xl overflow-hidden"
+          className="lg:col-span-2 relative glass-card-xl overflow-hidden p-0"
           style={{
-            height: '560px',
-            border: '1px solid rgba(57,255,20,0.12)',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(57,255,20,0.04)',
+            height: '600px',
+            border: '1px solid rgba(57,255,20,0.2)',
           }}
         >
-          <MapContainer center={mapCenter} zoom={mapZoom} style={{ width: '100%', height: '100%', background: '#0b1612' }}>
+          <MapContainer center={mapCenter} zoom={mapZoom} style={{ width: '100%', height: '100%', background: 'transparent' }}>
             <TileLayer
               attribution='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
               url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"

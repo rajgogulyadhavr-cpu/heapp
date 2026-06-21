@@ -110,31 +110,31 @@ export default function Diet() {
         {recommendedFoods.map((food, i) => (
           <div
             key={i}
-            className="glass-card p-6 flex flex-col justify-between"
+            className="glass-card-xl p-8 flex flex-col justify-between"
             style={{
-              borderColor: 'rgba(57,255,20,0.12)',
+              borderLeft: '4px solid #39ff14',
             }}
           >
             <div>
               <div
-                className="mb-4 w-full h-40 rounded-2xl overflow-hidden flex items-center justify-center relative"
+                className="mb-6 w-full h-48 rounded-2xl overflow-hidden flex items-center justify-center relative"
                 style={{ background: 'rgba(57,255,20,0.08)', border: '1px solid rgba(57,255,20,0.15)' }}
               >
                 <img src={food.image} alt={food.name} className="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0b1612] to-transparent opacity-40 pointer-events-none"></div>
               </div>
               <h3
-                className="text-base font-bold mb-2"
+                className="text-lg font-bold mb-4"
                 style={{ color: 'var(--color-accent)', fontFamily: 'Poppins, sans-serif' }}
               >
                 {food.name}
               </h3>
-              <p className="text-sm mb-3 leading-relaxed" style={{ color: 'var(--color-text)' }}>
+              <p className="text-sm mb-6 leading-relaxed" style={{ color: 'var(--color-text)' }}>
                 {food.benefits}
               </p>
             </div>
             <div
-              className="text-xs px-3 py-2 rounded-xl italic"
+              className="text-xs px-4 py-3 rounded-xl italic"
               style={{
                 background: 'rgba(57,255,20,0.05)',
                 border: '1px solid rgba(57,255,20,0.1)',
@@ -149,33 +149,33 @@ export default function Diet() {
 
       {/* Section 2: Foods to Avoid */}
       <h2 className="section-title">⚠️ Foods to Limit or Avoid</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-9">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         {avoidFoods.map((food, i) => (
           <div
             key={i}
-            className="glass-card p-6 flex flex-col justify-between"
-            style={{ borderColor: 'rgba(255,68,68,0.12)' }}
+            className="glass-card-xl p-8 flex flex-col justify-between"
+            style={{ borderLeft: '4px solid #ff4444' }}
           >
             <div>
               <div
-                className="mb-4 w-full h-40 rounded-2xl overflow-hidden flex items-center justify-center relative"
+                className="mb-6 w-full h-48 rounded-2xl overflow-hidden flex items-center justify-center relative"
                 style={{ background: 'rgba(255,68,68,0.08)', border: '1px solid rgba(255,68,68,0.15)' }}
               >
                 <img src={food.image} alt={food.name} className="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0b1612] to-transparent opacity-40 pointer-events-none"></div>
               </div>
               <h3
-                className="text-base font-bold mb-2"
-                style={{ color: '#ff6b6b', fontFamily: 'Poppins, sans-serif' }}
+                className="text-lg font-bold mb-4"
+                style={{ color: '#ff7777', fontFamily: 'Poppins, sans-serif' }}
               >
                 {food.name}
               </h3>
-              <p className="text-sm mb-3 leading-relaxed" style={{ color: 'var(--color-text)' }}>
+              <p className="text-sm mb-6 leading-relaxed" style={{ color: 'var(--color-text)' }}>
                 {food.reason}
               </p>
             </div>
             <div
-              className="text-xs px-3 py-2 rounded-xl italic"
+              className="text-xs px-4 py-3 rounded-xl italic"
               style={{
                 background: 'rgba(255,68,68,0.05)',
                 border: '1px solid rgba(255,68,68,0.1)',
@@ -190,19 +190,18 @@ export default function Diet() {
 
       {/* Section 3: Daily Foot Care Checklist */}
       <h2 className="section-title">👣 Daily Foot Hygiene Checklist</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-9">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         {footCareSteps.map((step, i) => (
           <div
             key={i}
-            className="glass-card p-6 flex flex-col gap-4"
+            className="glass-card-xl p-8 flex flex-col gap-5"
             style={{
-              borderLeft: '3px solid var(--color-accent)',
-              borderRadius: '20px',
+              borderLeft: '4px solid var(--color-accent)',
             }}
           >
             <div className="flex items-center justify-between">
               <span
-                className="text-xs font-bold px-3 py-1 rounded-full"
+                className="text-xs font-bold px-4 py-1.5 rounded-full"
                 style={{
                   background: 'rgba(57,255,20,0.1)',
                   color: 'var(--color-accent)',

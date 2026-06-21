@@ -53,15 +53,15 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full w-[260px] z-[50] flex flex-col transition-transform duration-300 md:translate-x-0 ${open ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`fixed top-0 left-0 h-full w-[280px] z-[50] flex flex-col transition-transform duration-400 ease-out md:translate-x-0 ${open ? 'translate-x-0' : '-translate-x-full'}`}
         style={{
           background: 'linear-gradient(170deg, rgba(4,26,16,0.98) 0%, rgba(6,33,24,0.96) 60%, rgba(8,20,14,0.98) 100%)',
-          backdropFilter: 'blur(32px)',
-          borderRight: '1px solid rgba(57,255,20,0.08)',
-          boxShadow: '4px 0 40px rgba(0,0,0,0.4), inset -1px 0 0 rgba(57,255,20,0.05)',
+          backdropFilter: 'blur(40px)',
+          borderRight: '1px solid rgba(57,255,20,0.1)',
+          boxShadow: '4px 0 50px rgba(0,0,0,0.5), inset -1px 0 0 rgba(57,255,20,0.08)',
         }}
       >
-        <div className="px-5 pt-6 pb-2">
+        <div className="px-6 pt-8 pb-4">
           <div className="flex items-center gap-3 mb-2">
             <div
               className="w-10 h-10 rounded-2xl flex items-center justify-center text-lg shrink-0"
@@ -95,14 +95,13 @@ export default function Sidebar() {
           </p>
         </div>
 
-        {/* Divider */}
         <div
-          className="mx-5 my-3 h-px"
-          style={{ background: 'linear-gradient(90deg, transparent, rgba(57,255,20,0.18), transparent)' }}
+          className="mx-6 my-4 h-px"
+          style={{ background: 'linear-gradient(90deg, transparent, rgba(57,255,20,0.25), transparent)' }}
         />
 
         {/* Nav */}
-        <nav className="flex-1 px-4 py-1 overflow-y-auto" style={{ scrollbarWidth: 'thin' }}>
+        <nav className="flex-1 px-4 py-2 overflow-y-auto flex flex-col gap-2" style={{ scrollbarWidth: 'thin' }}>
           {navItems.map((item) => {
             const isActive = location.pathname === item.path
             return (
@@ -111,38 +110,42 @@ export default function Sidebar() {
                 to={item.path}
                 onClick={() => setOpen(false)}
                 id={`nav-${item.path.replace('/', '') || 'home'}`}
-                className="flex items-center gap-3 px-4 py-3 my-[3px] rounded-2xl text-[0.88rem] font-medium transition-all duration-300 relative overflow-hidden"
+                className="flex items-center gap-4 px-4 py-3.5 rounded-2xl text-[0.95rem] font-medium transition-all duration-300 relative overflow-hidden group"
                 style={{
                   background: isActive
-                    ? 'linear-gradient(135deg, rgba(57,255,20,0.12) 0%, rgba(57,255,20,0.06) 100%)'
+                    ? 'linear-gradient(135deg, rgba(57,255,20,0.15) 0%, rgba(57,255,20,0.05) 100%)'
                     : 'transparent',
-                  color: isActive ? '#39ff14' : 'rgba(148,163,184,0.85)',
-                  border: isActive ? '1px solid rgba(57,255,20,0.25)' : '1px solid transparent',
-                  boxShadow: isActive ? '0 0 20px rgba(57,255,20,0.08), inset 0 1px 0 rgba(57,255,20,0.1)' : 'none',
+                  color: isActive ? '#39ff14' : 'rgba(226, 232, 240, 0.75)',
+                  border: isActive ? '1px solid rgba(57,255,20,0.3)' : '1px solid transparent',
+                  boxShadow: isActive ? '0 0 24px rgba(57,255,20,0.12), inset 0 1px 0 rgba(57,255,20,0.15)' : 'none',
                   textDecoration: 'none',
                   fontFamily: 'Poppins, sans-serif',
-                  fontWeight: isActive ? 600 : 400,
+                  fontWeight: isActive ? 600 : 500,
                 }}
               >
                 {/* Active left accent */}
                 {isActive && (
                   <motion.div
                     layoutId="sidebar-active-bar"
-                    className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-[60%] rounded-r-full"
-                    style={{ background: '#39ff14', boxShadow: '0 0 8px #39ff14' }}
+                    className="absolute left-0 top-1/2 -translate-y-1/2 w-[4px] h-[70%] rounded-r-full"
+                    style={{ background: '#39ff14', boxShadow: '0 0 12px #39ff14' }}
                   />
                 )}
+                
+                {/* Hover state styling via inline styles is tricky with pseudo, using group-hover in Tailwind */}
                 <span
-                  className="text-lg w-6 text-center shrink-0"
-                  style={{ filter: isActive ? 'drop-shadow(0 0 5px rgba(57,255,20,0.5))' : 'none' }}
+                  className="text-xl w-7 text-center shrink-0 flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                  style={{ filter: isActive ? 'drop-shadow(0 0 8px rgba(57,255,20,0.6))' : 'grayscale(30%)' }}
                 >
                   {item.icon}
                 </span>
-                <span className="flex-1">{item.label}</span>
+                <span className="flex-1 transition-colors duration-300 group-hover:text-white">{item.label}</span>
                 {isActive && (
-                  <div
-                    className="w-1.5 h-1.5 rounded-full shrink-0"
-                    style={{ background: '#39ff14', boxShadow: '0 0 6px #39ff14' }}
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="w-2 h-2 rounded-full shrink-0"
+                    style={{ background: '#39ff14', boxShadow: '0 0 8px #39ff14' }}
                   />
                 )}
               </NavLink>

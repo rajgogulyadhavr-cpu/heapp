@@ -7,3 +7,5 @@ Pillow
 SpeechRecognition
 gTTS
 matplotlib
+pydub
+imageio-ffmpeg
