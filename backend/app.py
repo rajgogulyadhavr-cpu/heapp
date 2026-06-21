@@ -150,6 +150,16 @@ def get_ai_response(query, language="english"):
 
 # ─── API Routes ───────────────────────────────────────────────────
 
+@app.route('/', methods=['GET'])
+def index():
+    """Root endpoint to check server status."""
+    return jsonify({
+        "message": "Foot Guard AI Backend API is running successfully.",
+        "version": "1.0.0",
+        "status": "healthy"
+    })
+
+
 @app.route('/api/health', methods=['GET'])
 def health():
     """Health check endpoint with detailed status."""
