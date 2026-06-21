@@ -410,7 +410,7 @@ def kurai_voice():
 
             for attempt in range(2):
                 try:
-                    transcript = recognizer.recognize_google(audio, language=lang_code)
+                    transcript = recognizer.recognize_google(audio, language=lang_code)  # pyrefly: ignore
                     logger.info(f"Speech recognized (attempt {attempt + 1}): {transcript[:80]}")
                     break
                 except sr.UnknownValueError:
