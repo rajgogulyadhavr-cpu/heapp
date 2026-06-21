@@ -8,8 +8,27 @@
     <meta name="keywords" content="diabetic foot ulcer, DFU detection, AI health, foot care, diabetes" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Defer non-critical CSS -->
+    <link rel="preload" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" /></noscript>
+
+    <!-- Inline Critical CSS for LCP Element -->
+    <style>
+      .disclaimer-bar {
+        background: rgba(255, 68, 68, 0.08);
+        border: 1px solid rgba(255, 68, 68, 0.2);
+        border-radius: 16px; /* corresponds to var(--radius-sm) */
+        padding: 16px 26px;
+        font-size: 0.88rem;
+        color: #fca5a5;
+        text-align: center;
+        line-height: 1.7;
+        font-weight: 500;
+        box-shadow: 0 4px 12px rgba(255, 68, 68, 0.1);
+      }
+    </style>
     <title>FootGuard AI – Diabetic Foot Ulcer Early Screening</title>
   </head>
   <body>

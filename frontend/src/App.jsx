@@ -1,14 +1,15 @@
 import { Routes, Route } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
+import { useState, Suspense, lazy } from 'react'
 import Sidebar from './components/Sidebar'
-import Detection from './pages/Detection'
-import KuraiAI from './pages/KuraiAI'
-import UraiAI from './pages/UraiAI'
-import Hospitals from './pages/Hospitals'
-import Diet from './pages/Diet'
-import DFUInfo from './pages/DFUInfo'
-import About from './pages/About'
+
+const Detection = lazy(() => import('./pages/Detection'))
+const KuraiAI = lazy(() => import('./pages/KuraiAI'))
+const UraiAI = lazy(() => import('./pages/UraiAI'))
+const Hospitals = lazy(() => import('./pages/Hospitals'))
+const Diet = lazy(() => import('./pages/Diet'))
+const DFUInfo = lazy(() => import('./pages/DFUInfo'))
+const About = lazy(() => import('./pages/About'))
 
 function App() {
   const [lang, setLang] = useState(localStorage.getItem('language') || 'english')
@@ -57,15 +58,17 @@ function App() {
       <main className="main-content pt-16 lg:pt-0">
         <AnimatePresence mode="wait">
           <div className="page-container mx-auto">
-            <Routes>
-            <Route path="/" element={<Detection />} />
-            <Route path="/kurai" element={<KuraiAI />} />
-            <Route path="/urai" element={<UraiAI />} />
-            <Route path="/hospitals" element={<Hospitals />} />
-            <Route path="/diet" element={<Diet />} />
-            <Route path="/dfu-info" element={<DFUInfo />} />
-            <Route path="/about" element={<About />} />
-            </Routes>
+            <Suspense fallback={<div className="flex justify-center items-center w-full min-h-[300px]"><div className="spinner"></div></div>}>
+              <Routes>
+                <Route path="/" element={<Detection />} />
+                <Route path="/kurai" element={<KuraiAI />} />
+                <Route path="/urai" element={<UraiAI />} />
+                <Route path="/hospitals" element={<Hospitals />} />
+                <Route path="/diet" element={<Diet />} />
+                <Route path="/dfu-info" element={<DFUInfo />} />
+                <Route path="/about" element={<About />} />
+              </Routes>
+            </Suspense>
           </div>
         </AnimatePresence>
       </main>
