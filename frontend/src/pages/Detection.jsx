@@ -89,16 +89,34 @@ export default function Detection() {
 
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'environment', width: 640, height: 480 }
-      })
+      // First try to get the back camera (environment)
+      let stream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { ideal: 'environment' }, width: 640, height: 480 }
+        })
+      } catch (err) {
+        // Fallback to any available camera if back camera is not found
+        console.warn('Environment camera not found, falling back to any camera', err)
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: true
+        })
+      }
+      
       streamRef.current = stream
-      if (videoRef.current) videoRef.current.srcObject = stream
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream
+        // Important: we need to wait for loadedmetadata before playing in some browsers
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current.play().catch(e => console.error("Error playing video:", e));
+        }
+      }
       setCameraActive(true)
       setResult(null)
       setError(null)
-    } catch {
-      setError('Could not access camera. Please allow camera permissions.')
+    } catch (err) {
+      console.error('Camera access error:', err)
+      setError(`Could not access camera: ${err.message || 'Please allow camera permissions.'}`)
     }
   }
 
