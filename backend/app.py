@@ -12,6 +12,7 @@ import logging
 import tempfile
 import numpy as np
 from flask import Flask, request, jsonify
+# pyrefly: ignore [missing-import]
 from flask_cors import CORS
 
 # ─── Logging Setup ────────────────────────────────────────────────
@@ -77,6 +78,7 @@ def load_model():
     """Load TensorFlow model and threshold once at startup."""
     global model, threshold
     try:
+        # pyrefly: ignore [missing-import]
         import tensorflow as tf
         if os.path.exists(MODEL_PATH):
             model = tf.keras.models.load_model(MODEL_PATH)
@@ -177,6 +179,7 @@ def health():
     })
 
 
+@app.route('/predict', methods=['POST'])
 @app.route('/api/predict', methods=['POST'])
 def predict():
     """Predict DFU from uploaded image file."""
@@ -184,7 +187,9 @@ def predict():
         return jsonify({"error": "Model not loaded. Please run train_model.py first."}), 503
 
     try:
+        # pyrefly: ignore [missing-import]
         from utils.preprocess import preprocess_image, preprocess_base64
+        # pyrefly: ignore [missing-import]
         from utils.gradcam import generate_gradcam
 
         # Handle file upload or base64
@@ -235,6 +240,7 @@ def predict():
         return jsonify({"error": "An internal error occurred during prediction. Please ensure the image is valid and try again."}), 500
 
 
+@app.route('/predict-camera', methods=['POST'])
 @app.route('/api/predict-camera', methods=['POST'])
 def predict_camera():
     """Predict DFU from base64-encoded camera capture."""
@@ -242,7 +248,9 @@ def predict_camera():
         return jsonify({"error": "Model not loaded. Please run train_model.py first."}), 503
 
     try:
+        # pyrefly: ignore [missing-import]
         from utils.preprocess import preprocess_base64
+        # pyrefly: ignore [missing-import]
         from utils.gradcam import generate_gradcam
 
         data = request.json
@@ -528,6 +536,10 @@ logger.info(f"  Threshold       : {threshold}")
 logger.info(f"  Max upload      : 16 MB")
 logger.info("=" * 55)
 
+logger.info("  REGISTERED ROUTES:")
+for rule in app.url_map.iter_rules():
+    logger.info(f"  {rule.rule} -> {','.join(rule.methods)}")
+logger.info("=" * 55)
 
 # ─── Start Server (local development only) ────────────────────────
 if __name__ == '__main__':
