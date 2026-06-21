@@ -1,0 +1,2 @@
+[tool.pyrefly]
+python_interpreter = "backend/venv/Scripts/python.exe"
