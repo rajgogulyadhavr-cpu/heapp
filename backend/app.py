@@ -24,11 +24,16 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-CORS(app, origins=[
-    "https://footguard-app.netlify.app",
-    "http://localhost:5173",
-    "http://localhost:3000",
-], supports_credentials=False)
+CORS(app,
+    origins=[
+        "https://footguard-app.netlify.app",
+        "http://localhost:5173",
+        "http://localhost:3000",
+    ],
+    methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
+    supports_credentials=False
+)
 
 # ─── Upload Limit (16 MB) ──────────────────────────────────────────
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
@@ -71,8 +76,16 @@ def load_hospitals():
             return []
         with open(HOSPITALS_PATH, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        logger.info(f"Hospitals data loaded: {HOSPITALS_PATH} ({len(data)} entries)")
-        return data
+        # Handle both formats: plain list OR {"tamil_nadu_hospitals": [...]}
+        if isinstance(data, list):
+            hospitals = data
+        elif isinstance(data, dict):
+            # Extract the first list value found in the dict
+            hospitals = next((v for v in data.values() if isinstance(v, list)), [])
+        else:
+            hospitals = []
+        logger.info(f"Hospitals data loaded: {HOSPITALS_PATH} ({len(hospitals)} entries)")
+        return hospitals
     except Exception as e:
         logger.error(f"Failed to load hospitals data: {e}")
         return []
