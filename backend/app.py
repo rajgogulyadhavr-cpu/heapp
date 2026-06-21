@@ -160,13 +160,14 @@ def index():
     })
 
 
+@app.route('/health', methods=['GET'])
 @app.route('/api/health', methods=['GET'])
 def health():
     """Health check endpoint with detailed status."""
     uptime_seconds = int(time.time() - SERVER_START_TIME)
     uptime_str = f"{uptime_seconds // 3600}h {(uptime_seconds % 3600) // 60}m {uptime_seconds % 60}s"
     return jsonify({
-        "status": "ok",
+        "status": "healthy",
         "model_loaded": model is not None,
         "threshold": threshold,
         "knowledge_base_loaded": bool(knowledge_base),
@@ -509,24 +510,27 @@ def internal_error(e):
     return jsonify({"error": "An unexpected server error occurred. Please try again."}), 500
 
 
-# ─── Start Server ─────────────────────────────────────────────────
+# ─── Load Data at Module Level (required for gunicorn) ────────────
+# This runs both when executed directly AND when imported by gunicorn
+logger.info("=" * 55)
+logger.info("  FOOT GUARD AI — Backend Server Starting")
+logger.info("=" * 55)
+
+load_model()
+knowledge_base = load_knowledge()
+hospitals_cache = load_hospitals()
+
+logger.info("=" * 55)
+logger.info(f"  Model loaded    : {'YES' if model is not None else 'NO (run train_model.py)'}")
+logger.info(f"  Knowledge base  : {'YES' if knowledge_base else 'NO'}")
+logger.info(f"  Hospitals       : {len(hospitals_cache)} entries")
+logger.info(f"  Threshold       : {threshold}")
+logger.info(f"  Max upload      : 16 MB")
+logger.info("=" * 55)
+
+
+# ─── Start Server (local development only) ────────────────────────
 if __name__ == '__main__':
-    logger.info("=" * 55)
-    logger.info("  FOOT GUARD AI — Backend Server Starting")
-    logger.info("=" * 55)
-
-    # Load all data before serving
-    load_model()
-    knowledge_base = load_knowledge()
-    hospitals_cache = load_hospitals()
-
-    logger.info("=" * 55)
-    logger.info(f"  Model loaded    : {'YES' if model is not None else 'NO (run train_model.py)'}")
-    logger.info(f"  Knowledge base  : {'YES' if knowledge_base else 'NO'}")
-    logger.info(f"  Hospitals       : {len(hospitals_cache)} entries")
-    logger.info(f"  Threshold       : {threshold}")
-    logger.info(f"  Max upload      : 16 MB")
-    logger.info("  Running on      : http://localhost:5000")
-    logger.info("=" * 55)
-
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    port = int(os.environ.get('PORT', 5000))
+    logger.info(f"  Running on      : http://localhost:{port}")
+    app.run(host='0.0.0.0', port=port, debug=False)
