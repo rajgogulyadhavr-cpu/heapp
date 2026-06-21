@@ -30,11 +30,11 @@ export default function KuraiAI() {
     try {
       let res
       try {
-        res = await axios.post('/api/kurai/text', { message: userMsg, language }, { timeout: 15000 })
+        res = await axios.post('/api/kurai/text', { message: userMsg, language }, { timeout: 60000 })
       } catch (firstErr) {
         console.warn('First text attempt failed, retrying...', firstErr)
         // Fresh call — no shared state issue with text requests
-        res = await axios.post('/api/kurai/text', { message: userMsg, language }, { timeout: 15000 })
+        res = await axios.post('/api/kurai/text', { message: userMsg, language }, { timeout: 60000 })
       }
       setMessages(prev => [...prev, { role: 'ai', text: res.data.response, audio: res.data.audio }])
       if (res.data.audio) {
@@ -66,7 +66,7 @@ export default function KuraiAI() {
       const formData = new FormData()
       formData.append('audio', blob, 'recording.webm')
       formData.append('language', language)
-      return axios.post('/api/kurai/voice', formData, { timeout: 20000 })
+      return axios.post('/api/kurai/voice', formData, { timeout: 60000 })
     }
 
     try {

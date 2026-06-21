@@ -68,13 +68,13 @@ export default function Detection() {
       try {
         res = await axios.post('/api/predict', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
-          timeout: 15000
+          timeout: 60000
         })
       } catch (firstErr) {
         console.warn('First prediction attempt failed, retrying...', firstErr)
         res = await axios.post('/api/predict', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
-          timeout: 15000
+          timeout: 60000
         })
       }
       setResult(res.data)
@@ -145,10 +145,10 @@ export default function Detection() {
     try {
       let res;
       try {
-        res = await axios.post('/api/predict', { image: dataUrl }, { timeout: 15000 })
+        res = await axios.post('/api/predict', { image: dataUrl }, { timeout: 60000 })
       } catch (firstErr) {
         console.warn('First camera prediction attempt failed, retrying...', firstErr)
-        res = await axios.post('/api/predict', { image: dataUrl }, { timeout: 15000 })
+        res = await axios.post('/api/predict', { image: dataUrl }, { timeout: 60000 })
       }
       setResult(res.data)
     } catch (err) {

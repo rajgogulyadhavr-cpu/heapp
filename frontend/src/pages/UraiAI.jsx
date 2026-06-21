@@ -28,7 +28,7 @@ export default function UraiAI() {
     setLoading(true)
 
     try {
-      const res = await axios.post('/api/urai/chat', { message: userMsg, language }, { timeout: 12000 })
+      const res = await axios.post('/api/urai/chat', { message: userMsg, language }, { timeout: 60000 })
       setMessages(prev => [...prev, {
         role: 'ai',
         text: res.data.response,
