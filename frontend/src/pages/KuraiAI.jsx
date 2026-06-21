@@ -160,7 +160,7 @@ export default function KuraiAI() {
       style={{ height: 'calc(100vh - 80px)' }}
     >
       <h1 className="page-title" style={{ marginBottom: '4px', fontSize: '1.7rem' }}>
-        {language === 'english' ? '🎤 Kurai AI' : '🎤 குரை AI'}
+        {language === 'english' ? '🎤 Kural AI' : '🎤 குரல் AI'}
       </h1>
       <p className="page-subtitle" style={{ marginBottom: '12px', fontSize: '0.85rem' }}>
         {language === 'english' ? 'Voice-powered DFU Awareness Assistant' : 'குரல் மூலம் இயங்கும் நீரிழிவு நோய் விழிப்புணர்வு உதவியாளர்'}
@@ -193,7 +193,7 @@ export default function KuraiAI() {
               className="text-2xl font-bold mb-3"
               style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-primary)' }}
             >
-              {language === 'english' ? 'Hello! I am Kurai AI' : 'வணக்கம்! நான் குரை AI'}
+              {language === 'english' ? 'Hello! I am Kural AI' : 'வணக்கம்! நான் குரல் AI'}
             </p>
             <p className="text-[1rem] font-medium" style={{ color: 'var(--color-text-secondary)' }}>
               {language === 'english'

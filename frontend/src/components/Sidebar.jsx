@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const navItems = [
   { path: '/', icon: '🏠', label: 'Detection' },
-  { path: '/kurai', icon: '🎤', label: 'Kurai AI' },
+  { path: '/kurai', icon: '🎤', label: 'Kural AI' },
   { path: '/urai', icon: '💬', label: 'Urai AI' },
   { path: '/hospitals', icon: '🏥', label: 'Hospitals' },
   { path: '/diet', icon: '🥗', label: 'Diet & Healthcare' },
